@@ -1,0 +1,4 @@
+#!/usr/bin/env runy
+require 'goeat/cli'
+
+Goeat::Cli.start
