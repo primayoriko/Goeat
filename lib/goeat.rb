@@ -1,4 +1,5 @@
 require "goeat/version"
+require_relative ''
 
 module Goeat
   class Error < StandardError; end
