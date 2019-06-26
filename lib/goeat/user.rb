@@ -3,7 +3,7 @@ require_relative 'basicnconst'
 
 module Goeat
   attr_accessor :coordinate
-  class User # class for our data
+  class User # class for application usage
     def initialize(coordinate_x, coordinate_y) # make our coordinate for first time
       @coordinate = Coordinate.new(coordinate_x,coordinate_y)
     end

@@ -2,6 +2,8 @@ require 'thor'
 require_relative 'basicnconst'
 
 module Goeat
+  class Driver_Util
+
   class Driver
     attr_accessor :coordinate,:name,:rating
     attr_writer :num
@@ -13,15 +15,11 @@ module Goeat
       @order = 0
     end
 
-    def new_rating()
+    def new_rating(rate)
     # rating that user gave to the driver after finishing a drive
-      puts "Please give rating for this driver to improve our system."
-      rate = gets('Rating : ')
       @rating = (@rating * @order + rate ) / (@order + 1)
       @order = @order + 1
-      puts "Thanks for helping us."
     end
-
 
   end
 end
