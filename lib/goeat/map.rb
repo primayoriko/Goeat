@@ -11,62 +11,59 @@ class Map
   # u : user
 
   attr_accessor :map, :coordinate_user, :size
+  @size = 0
   @map = [[]]
   @driver_num=0
   @store_num=0
-  private
-    def is_valid_make_road(coordinate_x, coordinate_y)
-      # Function that tell us if we can make a road here or no
-      valid = true
-      if(@map[coordinate_x + 1][coordinate_y_+ 1]='w')
-        if (@map[coordinate_x + 0][coordinate_y_+ 1]='w' &&
-            @map[coordinate_x + 1][coordinate_y_+ 0]='w')
-          valid = false
-        end
+  def is_valid_make_road(coordinate_x, coordinate_y)
+    # Function that tell us if we can make a road here or no
+    valid = true
+    if(@map[coordinate_x + 1][coordinate_y + 1]=='w')
+      if (@map[coordinate_x + 0][coordinate_y + 1]=='w' &&
+          @map[coordinate_x + 1][coordinate_y + 0]=='w')
+        valid = false
       end
-      if (@map[coordinate_x + 1][coordinate_y_+ -1]='w')
-        if (@map[coordinate_x + 0][coordinate_y_+ -1]='w' &&
-            @map[coordinate_x + 1][coordinate_y_+ 0]='w')
-          valid = false
-        end
-      end
-      if (@map[coordinate_x + -1][coordinate_y_+ 1]='w')
-        if (@map[coordinate_x + 0][coordinate_y_+ 1]='w' &&
-            @map[coordinate_x + -1][coordinate_y_+ 0]='w')
-          valid = false
-        end
-      end
-      if (@map[coordinate_x + -1][coordinate_y_+ -1]='w')
-        if (@map[coordinate_x + 0][coordinate_y_+ -1]='w' &&
-            @map[coordinate_x + -1][coordinate_y_+ 0]='w')
-          valid = false
-        end
-      end
-      valid
     end
+    if (@map[coordinate_x + 1][coordinate_y + -1]=='w')
+      if (@map[coordinate_x + 0][coordinate_y + -1]=='w' &&
+          @map[coordinate_x + 1][coordinate_y + 0]=='w')
+        valid = false
+      end
+    end
+    if (@map[coordinate_x + -1][coordinate_y + 1]=='w')
+      if (@map[coordinate_x + 0][coordinate_y + 1]=='w' &&
+          @map[coordinate_x + -1][coordinate_y + 0]=='w')
+        valid = false
+      end
+    end
+    if (@map[coordinate_x + -1][coordinate_y + -1]=='w')
+      if (@map[coordinate_x + 0][coordinate_y + -1]=='w' &&
+          @map[coordinate_x + -1][coordinate_y + 0]=='w')
+        valid = false
+      end
+    end
+    valid
+  end
 
-    def dfs(coordinate_x, coordinate_y)
-      # depth first search algo implementation to generate map
+  def dfs(coordinate_x, coordinate_y)
+    # depth first search algo implementation to generate map
+    if (coordinate_x > 0 && coordinate_x < @size-1 &&
+        coordinate_y > 0 && coordinate_y < @size-1)
       if (is_valid_make_road(coordinate_x, coordinate_y) &&
-          coordinate_x > 0 && coordinate_x < size-1 &&
-          coordinate_y > 0 && coordinate_y < size-1
+          @map[coordinate_x][coordinate_y]==nil)
         @map[coordinate_x][coordinate_y]='w'
-
-        arr = [[1,0],[-1,0],[0,1],[0,-1]]
-        arr.each do |sub|
-          if(coordinate_x + sub[0] > 0 && coordinate_x + sub[0] < size-1 &&
-              coordinate_y + sub[1] > 0 && coordinate_y + sub[1] < size-1)
-            # only do dfs if this block are not a member of perimeter blocks
-            dfs(coordinate_x + sub[0],coordinate_y + sub[1])
-          end
+        dfs(coordinate_x + 1,coordinate_y + 0)
+        dfs(coordinate_x + -1,coordinate_y + 0)
+        dfs(coordinate_x + 0,coordinate_y + 1)
+        dfs(coordinate_x + 0,coordinate_y + -1)
       end
     end
   end
 
   def show_map()
    # printing map to the screen
-    (0...size).to_a.each do |x|
-      (0...size).to_a.each do |y|
+    for x in (0...@size)
+      for y in (0...@size)
         print(@map[x][y])
       end
       puts()
@@ -75,6 +72,7 @@ class Map
 
   def initialize(size=20,coordinate_user_x=rand(0...20),coordinate_user_y=rand(0...20)) # initializing maps size and coordinate at first
     @map = Array.new(size){Array.new(size)}
+    @size = size
 
     # initilize number of driver and store on map
     if size == 20
@@ -87,7 +85,10 @@ class Map
 
     @coordinate_user = Coordinate.new(coordinate_user_x,coordinate_user_y)
     @map[@coordinate_user.x][@coordinate_user.y]='u'
-    dfs(@coordinate_user.x,@coordinate_user.y)
+    dfs(@coordinate_user.x+1,@coordinate_user.y)
+    dfs(@coordinate_user.x,@coordinate_user.y+1)
+    dfs(@coordinate_user.x-1,@coordinate_user.y)
+    dfs(@coordinate_user.x,@coordinate_user.y-1)
 
     end
 
