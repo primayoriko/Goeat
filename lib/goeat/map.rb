@@ -1,5 +1,5 @@
 require 'thor'
-require_relative 'basicnconst', 'driver', 'store', 'user'
+require_relative 'basicnconst', 'driver', 'store', 'apputil'
 
 class Map
   # This class define map structure and method that
@@ -90,7 +90,14 @@ class Map
     dfs(@coordinate_user.x-1,@coordinate_user.y)
     dfs(@coordinate_user.x,@coordinate_user.y-1)
 
+    for x in (0...@size)
+      for y in (0...@size)
+        if @map[x][y] == nil
+          @map[x][y] = 'g'
+        end
+      end
     end
+  end
 
     def random_loc(ground_type='g', arg=true)
     # generate a random location that meet arg and ground_type requirement
