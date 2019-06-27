@@ -11,14 +11,16 @@ module Goeat
     # which the map is symbolized with this letter:
     # g : ground /unoccupied land
     # w ; way/road (we define that road can't be a member of perimeter blocks)
+    # s : store
     # d : driver (driver must be on the road)
     # u : user
 
     attr_accessor :map, :coordinate_user, :size
+    attr_reader :driver_num, :store_num
     @size = 0
     @map = [[]]
-    @driver_num=0
-    @store_num=0
+    @driver_num = 0
+    @store_num = 0
     def is_valid_make_road(coordinate_x, coordinate_y)
       # Function that tell us if we can make a road here or no
       valid = true
@@ -71,6 +73,12 @@ module Goeat
           print(@map[x][y])
         end
         puts()
+        puts "the map is symbolized with this letter :"
+        puts " g : ground /unoccupied land"
+        puts " w : way/road (we define that road can't be a member of perimeter blocks)"
+        puts " s : store"
+        puts " d : driver (driver must be on the road)"
+        puts " u : user"
       end
     end
 
@@ -84,8 +92,8 @@ module Goeat
         @driver_num = 5
         @store_num = 3
       else
-        @driver_num = rand(0..[size/4,12].max)
-        @store_num = rand(0..[size/6,6].max)
+        @driver_num = rand(1..[size/4,12].max)
+        @store_num = rand(1..[size/6,6].max)
       end
 
       @coordinate_user = Coordinate.new(coordinate_user_x,coordinate_user_y)
@@ -115,6 +123,11 @@ module Goeat
         break if ((arg)?(@map[x][y] == ground_type):(@map[x][y] != ground_type))
       end
       rand_loc = Coordinate.new(x,y)
+    end
+
+    def manhattan_dist(coordinate_a, coordinate_b)
+      dist = (coordinate_a.x - coordinate_b.x).abs + (coordinate_a.y - coordinate_b.y).abs
+      dist
     end
   end
 end
