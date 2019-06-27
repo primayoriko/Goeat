@@ -2,18 +2,19 @@ require 'thor'
 require_relative 'basicnconst'
 
 module Goeat
-  attr_accessor :coordinate
-  class AppUtil # class for application usage
-    def initialize(coordinate_x, coordinate_y) # make our coordinate for first time
-      @coordinate = Coordinate.new(coordinate_x,coordinate_y)
-    end
+  class History_List < Array # Container for every user's purchase history
+  end
 
-    def path(coordinate_user_x,coordinate_user_y,coordinate_driver_x,coordinate_driver_y) #search and printing path with dijkstra algorithm
-
-    end
-
-    def order()
-
+  class History
+    # Class that save user's purchase history
+    attr_accessor :store_name, total_cost
+    def initialize(store_name, total_cost, item_bought)
+      @store_name = store_name
+      @total_cost = total_cost
+      @item_bought = item_bought
+      # item bought is 2d array that contain
+      # [[item, number that user purchased], ...]
     end
   end
+
 end

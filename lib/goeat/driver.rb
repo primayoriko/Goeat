@@ -3,9 +3,11 @@ require_relative 'basicnconst'
 
 module Goeat
   class Driver_List < Array
+    # container of every driver's data
   end
 
   class Driver
+    # Class that save driver's profile
     attr_accessor :coordinate,:name,:rating
     attr_writer :num
     def initialize(coordinate_x, coordinate_y, name)

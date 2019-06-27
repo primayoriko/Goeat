@@ -1,4 +1,6 @@
 require 'thor'
+require_relative 'basicnconst'
+require_relative 'map'
 
 module Goeat
   class Cli < Thor
@@ -6,12 +8,8 @@ module Goeat
     def start
       generate_map_menu
       generate_map
+      initialize_container
       main_menu
-
-    rescue Goeat::InvalidInput => e
-      say "\nInput #{e.message} is Invalid, please restart the program"
-    ensure
-      quit_app
 
     end
 
@@ -24,6 +22,7 @@ module Goeat
       end
 
       def generate_map
+        # Generating map with mode that user choose
         say "\n"
         case @action
         when '1' then @map = Map.new()
@@ -35,9 +34,15 @@ module Goeat
           say 'What is your coordinate on x-axis (0<=y<size)'
           @y = ask '> '
           say "\n"
-          @map = Map.new(@size,@x,@y)
+          @map = Map.new(@size.to_i,@x.to_i,@y.to_i)
         else quit_app
         end
+      end
+
+      def initialize_container
+        @driverlist = Driver_List.new
+        @storelist = Store_List.new
+        @historylist = History_List.new
       end
 
       def main_menu
@@ -68,6 +73,20 @@ module Goeat
       end
 
       def show_history
+        say 'This is what you have bought :'
+        @historylist.each do |history|
+          puts history.store_name
+          history.item_bought.each do |sub|
+            puts sub[0] + ' -> ' + sub[1].to_s + ' portion(s)'
+          end
+          puts "Total Cost : " + history.total_cost.to_s
+          say "\n"
+        end
+      end
+
+      def quit_app
+
+      end
     end
   end
 end
